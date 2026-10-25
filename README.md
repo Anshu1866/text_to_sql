@@ -180,12 +180,6 @@ npm install
 npm run dev
 ```
 
-## Author
-
-**Alokik Gour**
-[GitHub](https://github.com/Alokik-29) · [LinkedIn](https://www.linkedin.com/in/alokik29/)
-
----
 
 <div align="center">
 <sub>Built as a from-scratch upgrade of an earlier project, rebuilt around LangGraph, Self-RAG, and human-in-the-loop agentic design.</sub>
