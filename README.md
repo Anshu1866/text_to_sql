@@ -104,12 +104,32 @@ cd frontend && npm install && npm run dev
 - [ ] AST-based SQL check allowing a single SELECT, row limits and statement timeouts
 - [ ] Authentication, rate limiting, streaming responses
 
-## My contributions
+## Example Walkthrough
 
-*Fill this in with only what you personally did and can explain line by line, for example: ran and deployed the system, wrote tests, added a feature. Each item should have a commit behind it.*
+**1. A clear question** (runs straight through)
 
-- [your real contribution 1]
-- [your real contribution 2]
+> "Which artist has the most albums?"
+
+The system retrieves the relevant tables (Artist, Album), the critic confirms they are sufficient, SQL is generated, passes the keyword filter, runs on the read-only connection, and the response returns a plain-English answer together with the executed SQL.
+
+**2. An ambiguous question** (pauses for clarification)
+
+> "Show me the top ones"
+
+The graph calls `interrupt()` and the API returns a clarifying question with a `thread_id`. The user replies, the frontend calls `/resume` with the same `thread_id`, and the run continues from the exact point it paused.
+
+**3. A failing query** (self-correction)
+
+If the generated SQL raises a database error, the actual error message is fed back to the generator and a corrected query is tried, up to the retry limit. If every attempt fails, the user gets a graceful failure message instead of a stack trace.
+
+## API Overview
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /` | Health check, returns `{"status": "ok"}` |
+| `POST /query` | Start a run. Returns an answer, an error, or a clarification request with a `thread_id` |
+| `POST /resume` | Continue a paused run using the `thread_id` and the user's clarification |
+| `GET /docs` | Interactive OpenAPI documentation (FastAPI) |
 
 ## Credits
 
